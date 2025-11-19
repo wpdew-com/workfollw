@@ -193,35 +193,56 @@
         </div>
     </div>
 
-    <script src="auth.js"></script>
+    <script src="auth-google-sheets.js"></script>
     <script>
         // Проверяем, не авторизован ли уже пользователь
         if (isAuthenticated()) {
             window.location.href = 'courses.html';
         }
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
+            const submitButton = document.querySelector('.btn-login');
             
-            if (login(username, password)) {
-                // Успешная авторизация
-                window.location.href = 'courses.html';
-            } else {
-                // Ошибка авторизации
-                errorMessage.textContent = '❌ Неверное имя пользователя или пароль';
+            // Показываем индикатор загрузки
+            submitButton.textContent = '⏳ Проверка...';
+            submitButton.disabled = true;
+            
+            try {
+                const authenticated = await login(username, password);
+                
+                if (authenticated) {
+                    // Успешная авторизация
+                    submitButton.textContent = '✓ Успешно!';
+                    window.location.href = 'courses.html';
+                } else {
+                    // Ошибка авторизации
+                    errorMessage.textContent = '❌ Неверное имя пользователя или пароль';
+                    errorMessage.classList.add('show');
+                    
+                    submitButton.textContent = 'Войти';
+                    submitButton.disabled = false;
+                    
+                    // Убираем сообщение об ошибке через 3 секунды
+                    setTimeout(() => {
+                        errorMessage.classList.remove('show');
+                    }, 3000);
+                    
+                    // Очищаем поле пароля
+                    document.getElementById('password').value = '';
+                }
+            } catch (error) {
+                errorMessage.textContent = '❌ Ошибка подключения. Проверьте настройки.';
                 errorMessage.classList.add('show');
                 
-                // Убираем сообщение об ошибке через 3 секунды
-                setTimeout(() => {
-                    errorMessage.classList.remove('show');
-                }, 3000);
+                submitButton.textContent = 'Войти';
+                submitButton.disabled = false;
                 
-                // Очищаем поле пароля
-                document.getElementById('password').value = '';
+                console.error('Ошибка авторизации:', error);
             }
         });
     </script>

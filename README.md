@@ -60,7 +60,7 @@ root/
 4. Переглядайте курси на `courses.html`
 
 ### Онлайн версія:
-Сайт доступний на GitHub Pages: [https://veo-optimization.github.io/tiktok](https://veo-optimization.github.io/tiktok)
+Сайт доступний на GitHub Pages: [https://wpdew-com.github.io/workfollw/](https://wpdew-com.github.io/workfollw/)
 
 ## 📱 Адаптивність
 

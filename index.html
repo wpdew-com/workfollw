@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная - Образовательная платформа</title>
+    <title>Головна - Освітня платформа</title>
     <style>
         * {
             margin: 0;
@@ -173,35 +173,35 @@
     <div class="container">
         <div class="status-badge">✓ Онлайн</div>
         
-        <h1>🎓 Образовательная платформа</h1>
+        <h1>🎓 Освітня платформа</h1>
         <p class="subtitle">
-            Добро пожаловать! Получите доступ к обучающим курсам и материалам.
+            Ласкаво просимо! Отримайте доступ до навчальних курсів та матеріалів.
         </p>
 
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">📚</div>
-                <div class="feature-text">Множество курсов</div>
+                <div class="feature-text">Багато курсів</div>
             </div>
             <div class="feature">
                 <div class="feature-icon">🎯</div>
-                <div class="feature-text">Практические задания</div>
+                <div class="feature-text">Практичні завдання</div>
             </div>
             <div class="feature">
                 <div class="feature-icon">🏆</div>
-                <div class="feature-text">Сертификаты</div>
+                <div class="feature-text">Сертифікати</div>
             </div>
         </div>
 
         <div class="btn-group">
-            <a href="login.html" class="btn btn-primary">Войти в систему</a>
-            <a href="courses.html" class="btn btn-secondary">Перейти к курсам</a>
+            <a href="login.html" class="btn btn-primary">Увійти в систему</a>
+            <a href="courses.html" class="btn btn-secondary">Перейти до курсів</a>
         </div>
 
         <div class="auth-info">
-            <p><strong>Для доступа к курсам требуется авторизация</strong></p>
+            <p><strong>Для доступу до курсів потрібна авторизація</strong></p>
             <p style="font-size: 13px; color: #999;">
-                Если у вас нет учетной записи, используйте тестовые данные на странице входа
+                Якщо у вас немає облікового запису, використовуйте тестові дані на сторінці входу
             </p>
         </div>
     </div>
@@ -211,13 +211,13 @@
         // Если пользователь уже авторизован, меняем текст кнопки
         if (isAuthenticated()) {
             const loginBtn = document.querySelector('.btn-primary');
-            loginBtn.textContent = 'Вы уже авторизованы';
+            loginBtn.textContent = 'Ви вже авторизовані';
             loginBtn.style.background = '#4caf50';
             
             const session = getSession();
             if (session) {
                 document.querySelector('.auth-info p strong').textContent = 
-                    'Добро пожаловать, ' + session.username + '!';
+                    'Ласкаво просимо, ' + session.username + '!';
             }
         }
     </script>

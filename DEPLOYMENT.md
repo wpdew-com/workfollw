@@ -4,7 +4,7 @@
 
 1. Перейдіть на [GitHub](https://github.com)
 2. Натисніть "New repository"
-3. Назвіть репозиторій (наприклад: `tiktok-academy`)
+3. Назвіть репозиторій (наприклад: `wpdew-academy`)
 4. Залиште репозиторій публічним
 5. **НЕ** створюйте README, .gitignore або license файли
 6. Натисніть "Create repository"

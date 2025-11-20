@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курс Хостингу - Відеоуроки</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .btn-back {
+            padding: 10px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-back:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+        }
+
+        .playlist {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .playlist h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .video-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video-item:hover {
+            background: #f8f9fa;
+            border-color: #e3f2fd;
+        }
+
+        .video-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .video-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .video-item.active .video-number {
+            background: white;
+            color: #667eea;
+        }
+
+        .video-title {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .player-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .current-video-title {
+            color: #333;
+            font-size: 26px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-control {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-prev {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-prev:hover:not(:disabled) {
+            background: #e0e0e0;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-control:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            border-radius: 10px;
+            height: 8px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .playlist {
+                max-height: 300px;
+                order: 2;
+            }
+
+            .player-section {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .current-video-title {
+                font-size: 20px;
+            }
+
+            .player-section {
+                padding: 20px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Захист сторінки -->
+    <script src="auth-google-sheets.js"></script>
+    <script>
+        requireAuth();
+    </script>
+
+    <div class="header">
+        <h1>📚 Курс з Хостингу</h1>
+        <a href="courses.html" class="btn-back">← Повернутися до курсів</a>
+    </div>
+
+    <div class="container">
+        <div class="playlist">
+            <h2>📋 Список уроків</h2>
+            <div id="playlistItems"></div>
+        </div>
+
+        <div class="player-section">
+            <h2 class="current-video-title" id="currentVideoTitle">Урок 1: Вступ</h2>
+            
+            <div class="video-wrapper">
+                <iframe 
+                    id="youtubePlayer"
+                    src="https://www.youtube.com/embed/oQ5OkaulmTE?rel=0&modestbranding=1"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="video-controls">
+                <button class="btn-control btn-prev" id="prevBtn" onclick="previousVideo()">← Попередній урок</button>
+                <button class="btn-control btn-next" id="nextBtn" onclick="nextVideo()">Наступний урок →</button>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p class="progress-text" id="progressText">Прогрес: 0 з 6 уроків (0%)</p>
+        </div>
+    </div>
+
+    <script>
+        // Список відео
+        const videos = [
+            { id: 'oQ5OkaulmTE', title: 'Урок 1: Вступ до хостингу' },
+            { id: 'rsfzcO2TINQ', title: 'Урок 2: Замовлення хостингу та коротке знайомство з панеллю управління' },
+            { id: 'SOaPpY_eKC8', title: 'Урок 3: Реєстрація та налаштування облікового запису' },
+            { id: '4QcRoxqQouw', title: 'Урок 4: Базовий функціонал панелі керування' },
+            { id: 'zpaSTBS1GpY', title: 'Урок 5: Реєстрація, додавання та робота з доменом' },
+            { id: 'En9JajsxC-Y', title: 'Урок 6: Встановлення SSL сертифікатів' },
+			{ id: '1xl1PyJT-PQ', title: 'Урок 7: Налаштування FTP та SFTP доступу' },
+			{ id: 'vTpucXgV34k', title: 'Урок 8: Підключення через SFTP/FTP через Visual Studio' },
+			{ id: 'eWiImEuIuAk', title: 'Урок 9: Очищення кешу в Google Chrome, Mozilla Firefox, Opera, Microsoft Edge' }
+        ];
+
+        let currentVideoIndex = 0;
+
+        // Завантаження прогресу з localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem('hostingCourseProgress');
+            if (saved) {
+                currentVideoIndex = parseInt(saved);
+            }
+        }
+
+        // Збереження прогресу
+        function saveProgress() {
+            localStorage.setItem('hostingCourseProgress', currentVideoIndex);
+        }
+
+        // Генерація плейлиста
+        function generatePlaylist() {
+            const container = document.getElementById('playlistItems');
+            container.innerHTML = '';
+            
+            videos.forEach((video, index) => {
+                const item = document.createElement('div');
+                item.className = 'video-item' + (index === currentVideoIndex ? ' active' : '');
+                item.onclick = () => loadVideo(index);
+                
+                item.innerHTML = `
+                    <div class="video-number">${index + 1}</div>
+                    <div class="video-title">${video.title}</div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        // Завантаження відео
+        function loadVideo(index) {
+            if (index < 0 || index >= videos.length) return;
+            
+            currentVideoIndex = index;
+            const video = videos[index];
+            
+            // Оновлення iframe
+            const iframe = document.getElementById('youtubePlayer');
+            iframe.src = `https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1&autoplay=1`;
+            
+            // Оновлення заголовка
+            document.getElementById('currentVideoTitle').textContent = video.title;
+            
+            // Оновлення плейлиста
+            generatePlaylist();
+            
+            // Оновлення кнопок
+            updateButtons();
+            
+            // Оновлення прогресу
+            updateProgress();
+            
+            // Збереження
+            saveProgress();
+        }
+
+        // Наступне відео
+        function nextVideo() {
+            if (currentVideoIndex < videos.length - 1) {
+                loadVideo(currentVideoIndex + 1);
+            }
+        }
+
+        // Попереднє відео
+        function previousVideo() {
+            if (currentVideoIndex > 0) {
+                loadVideo(currentVideoIndex - 1);
+            }
+        }
+
+        // Оновлення кнопок
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentVideoIndex === 0;
+            nextBtn.disabled = currentVideoIndex === videos.length - 1;
+        }
+
+        // Оновлення прогресу
+        function updateProgress() {
+            const watchedCount = currentVideoIndex + 1;
+            const totalCount = videos.length;
+            const percentage = Math.round((watchedCount / totalCount) * 100);
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = 
+                `Прогрес: ${watchedCount} з ${totalCount} уроків (${percentage}%)`;
+        }
+
+        // Ініціалізація
+        loadProgress();
+        generatePlaylist();
+        updateButtons();
+        updateProgress();
+
+        // Автоматичне відтворення наступного відео (опціонально)
+        // Можна розкоментувати, якщо потрібно
+        /*
+        window.addEventListener('message', function(event) {
+            if (event.data === 'video-ended') {
+                setTimeout(() => {
+                    nextVideo();
+                }, 2000);
+            }
+        });
+        */
+    </script>
+</body>
+</html>

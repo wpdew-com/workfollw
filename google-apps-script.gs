@@ -46,19 +46,31 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  const action = e.parameter.action;
-  
-  if (action === 'test') {
+  try {
+    const action = e.parameter.action;
+    
+    if (action === 'authenticate') {
+      const username = e.parameter.username;
+      const password = e.parameter.password;
+      return authenticateUser(username, password);
+    } else if (action === 'test') {
+      return ContentService.createTextOutput(JSON.stringify({
+        success: true,
+        message: 'API работает!'
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
     return ContentService.createTextOutput(JSON.stringify({
-      success: true,
-      message: 'API работает!'
+      success: false,
+      error: 'Unknown action or missing parameters'
+    })).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      error: error.toString()
     })).setMimeType(ContentService.MimeType.JSON);
   }
-  
-  return ContentService.createTextOutput(JSON.stringify({
-    success: false,
-    error: 'Use POST request'
-  })).setMimeType(ContentService.MimeType.JSON);
 }
 
 /**

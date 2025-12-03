@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Головна - Освітня платформа</title>
+	<meta name="description" content="Освітня платформа - курси для товарщиків">
+	<meta name="keywords" content="освіта, курси, товариші, навчання, онлайн курси">
+	<meta name="author" content="WpDews">
+	<?php
+	$url = 'http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 's' : '') . '://';
+	$url = $url . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+	?>
+	<meta property="og:locale" content="ua_UA"/>
+	<meta property="og:type" content="product"/>
+	<meta property="og:title" content="Освітня платформа"/>
+	<meta property="og:description" content="Освітня платформа - курси для товарщиків"/>
+	<meta property="og:url" content="<?= $url; ?>"/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:image" content="offer.jpg" />
+	<meta property="og:image:width" content="968">
+	<meta property="og:image:height" content="504">
     <style>
         * {
             margin: 0;
